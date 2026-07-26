@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested": {
+      "type": "object",
+      "properties": {
+        "package_name": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+$"
+        }
+      },
+      "required": [
+        "package_name"
+      ],
+      "additionalProperties": false
+    },
+    "pid_selection": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "pidof"
+        },
+        "all_pids": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "dumped_pids": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "total_pid_count": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "dumped_pid_count": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "method",
+        "all_pids",
+        "dumped_pids",
+        "total_pid_count",
+        "dumped_pid_count",
+        "truncated"
+      ],
+      "additionalProperties": false
+    },
+    "dump": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "logcat_pid_tail"
+        },
+        "format": {
+          "type": "string",
+          "const": "threadtime"
+        },
+        "buffers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "main",
+              "system",
+              "crash"
+            ]
+          }
+        },
+        "per_pid_line_limit": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 1000
+        },
+        "max_line_chars": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "max_total_chars": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "command_count": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "command_duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "method",
+        "format",
+        "buffers",
+        "per_pid_line_limit",
+        "max_line_chars",
+        "max_total_chars",
+        "command_count",
+        "command_duration_ms"
+      ],
+      "additionalProperties": false
+    },
+    "processes": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pid": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "line_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "truncated": {
+            "type": "object",
+            "properties": {
+              "lines": {
+                "type": "boolean"
+              },
+              "chars": {
+                "type": "boolean"
+              },
+              "line_chars": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "lines",
+              "chars",
+              "line_chars"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "pid",
+          "line_count",
+          "lines",
+          "truncated"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "line_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "truncated": {
+      "type": "object",
+      "properties": {
+        "lines": {
+          "type": "boolean"
+        },
+        "chars": {
+          "type": "boolean"
+        },
+        "line_chars": {
+          "type": "boolean"
+        },
+        "processes": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "lines",
+        "chars",
+        "line_chars",
+        "processes"
+      ],
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "string",
+      "const": "per_pid_logcat_tail_then_global_cap"
+    }
+  },
+  "required": [
+    "device_serial",
+    "requested",
+    "pid_selection",
+    "dump",
+    "processes",
+    "line_count",
+    "truncated",
+    "semantics"
+  ],
+  "additionalProperties": false,
+  "$id": "logs-dump-result"
+}

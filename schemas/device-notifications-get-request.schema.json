@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "max_notifications": {
+      "default": 20,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 50
+    },
+    "max_field_chars": {
+      "default": 256,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 1024
+    },
+    "max_total_chars": {
+      "default": 4096,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 20000
+    },
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "max_notifications",
+    "max_field_chars",
+    "max_total_chars",
+    "timeout_ms"
+  ],
+  "additionalProperties": false,
+  "$id": "device-notifications-get-request"
+}

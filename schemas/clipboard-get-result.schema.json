@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "present": {
+      "type": "boolean"
+    },
+    "length": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "charset": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "utf8"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "preview_redacted": {
+      "type": "string",
+      "const": "<redacted>"
+    }
+  },
+  "required": [
+    "device_serial",
+    "present",
+    "length",
+    "sha256",
+    "charset",
+    "preview_redacted"
+  ],
+  "additionalProperties": false,
+  "$id": "clipboard-get-result"
+}

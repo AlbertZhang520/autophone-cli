@@ -1,0 +1,347 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested": {
+      "type": "object",
+      "properties": {
+        "max_notifications": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 50
+        },
+        "max_field_chars": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 1024
+        },
+        "max_total_chars": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 20000
+        }
+      },
+      "required": [
+        "max_notifications",
+        "max_field_chars",
+        "max_total_chars"
+      ],
+      "additionalProperties": false
+    },
+    "notifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "package_name": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z0-9_]+)*$"
+          },
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -1,
+                "maximum": 2147483647
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "notification_id": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tag": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "channel_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "importance": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "group_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "private",
+              "secret",
+              "unknown"
+            ]
+          },
+          "flags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^([A-Za-z0-9_]+|0x[0-9a-fA-F]+)$"
+            }
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sub_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "big_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1024
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "key",
+          "package_name",
+          "user_id",
+          "notification_id",
+          "tag",
+          "channel_id",
+          "importance",
+          "group_key",
+          "category",
+          "visibility",
+          "flags",
+          "title",
+          "text",
+          "sub_text",
+          "big_text",
+          "truncated"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "counts": {
+      "type": "object",
+      "properties": {
+        "total_seen": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "returned": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "dropped_by_limit": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "total_seen",
+        "returned",
+        "dropped_by_limit"
+      ],
+      "additionalProperties": false
+    },
+    "truncated": {
+      "type": "object",
+      "properties": {
+        "notifications": {
+          "type": "boolean"
+        },
+        "chars": {
+          "type": "boolean"
+        },
+        "fields": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "notifications",
+        "chars",
+        "fields"
+      ],
+      "additionalProperties": false
+    },
+    "sensitive": {
+      "type": "boolean",
+      "const": true
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "dumpsys_notification_noredact"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "command_duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "method",
+        "exit_code",
+        "command_duration_ms"
+      ],
+      "additionalProperties": false
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "const": "notification_dump_parse"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true
+        },
+        "attempts": {
+          "type": "number",
+          "const": 1
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "string",
+      "const": "read_only_notification_snapshot_sensitive_bounded"
+    }
+  },
+  "required": [
+    "device_serial",
+    "requested",
+    "notifications",
+    "counts",
+    "truncated",
+    "sensitive",
+    "query",
+    "verify",
+    "semantics"
+  ],
+  "additionalProperties": false,
+  "$id": "device-notifications-get-result"
+}

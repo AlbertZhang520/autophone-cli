@@ -1,0 +1,387 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested": {
+      "type": "object",
+      "properties": {
+        "scale": {
+          "anyOf": [
+            {
+              "type": "number",
+              "const": 0
+            },
+            {
+              "type": "number",
+              "const": 0.5
+            },
+            {
+              "type": "number",
+              "const": 1
+            }
+          ]
+        }
+      },
+      "required": [
+        "scale"
+      ],
+      "additionalProperties": false
+    },
+    "before": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "object",
+          "properties": {
+            "window_animation_scale": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "raw",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "transition_animation_scale": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "raw",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "animator_duration_scale": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "raw",
+                "value"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "window_animation_scale",
+            "transition_animation_scale",
+            "animator_duration_scale"
+          ],
+          "additionalProperties": false
+        },
+        "animations_disabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "settings",
+        "animations_disabled"
+      ],
+      "additionalProperties": false
+    },
+    "set": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "settings_put_global_window_animation_scale",
+                  "settings_put_global_transition_animation_scale",
+                  "settings_put_global_animator_duration_scale"
+                ]
+              },
+              "scale": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "const": 0
+                  },
+                  {
+                    "type": "number",
+                    "const": 0.5
+                  },
+                  {
+                    "type": "number",
+                    "const": 1
+                  }
+                ]
+              },
+              "exit_code": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "command_duration_ms": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "method",
+              "scale",
+              "exit_code",
+              "command_duration_ms"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "after": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "object",
+          "properties": {
+            "window_animation_scale": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "raw",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "transition_animation_scale": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "raw",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "animator_duration_scale": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "raw",
+                "value"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "window_animation_scale",
+            "transition_animation_scale",
+            "animator_duration_scale"
+          ],
+          "additionalProperties": false
+        },
+        "animations_disabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "settings",
+        "animations_disabled"
+      ],
+      "additionalProperties": false
+    },
+    "changed": {
+      "type": "boolean"
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "const": "global_animation_scales_readback"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true
+        },
+        "attempts": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "string",
+      "const": "device_wide_global_animation_scale_settings_not_runtime_animation_state"
+    }
+  },
+  "required": [
+    "device_serial",
+    "requested",
+    "before",
+    "set",
+    "after",
+    "changed",
+    "verify",
+    "semantics"
+  ],
+  "additionalProperties": false,
+  "$id": "device-animations-set-result"
+}

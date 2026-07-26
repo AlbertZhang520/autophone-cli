@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "battery": {
+      "type": "object",
+      "properties": {
+        "level_percent": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scale": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "unknown",
+                "charging",
+                "discharging",
+                "not_charging",
+                "full"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plugged": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "ac",
+                "usb",
+                "wireless",
+                "dock",
+                "none"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "temperature_celsius": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "health": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "unknown",
+                "good",
+                "overheat",
+                "dead",
+                "over_voltage",
+                "unspecified_failure",
+                "cold"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "present": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "voltage_mv": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "technology": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "charge_counter_uah": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "level_percent",
+        "scale",
+        "status",
+        "plugged",
+        "temperature_celsius",
+        "health",
+        "present",
+        "voltage_mv",
+        "technology",
+        "charge_counter_uah"
+      ],
+      "additionalProperties": false
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "dumpsys_battery"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "command_duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "method",
+        "exit_code",
+        "command_duration_ms"
+      ],
+      "additionalProperties": false
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "const": "dumpsys_battery_parse"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true
+        },
+        "attempts": {
+          "type": "number",
+          "const": 1
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "string",
+      "const": "read_only_battery_snapshot_not_charge_control_or_health_calibration"
+    }
+  },
+  "required": [
+    "device_serial",
+    "battery",
+    "query",
+    "verify",
+    "semantics"
+  ],
+  "additionalProperties": false,
+  "$id": "device-battery-get-result"
+}

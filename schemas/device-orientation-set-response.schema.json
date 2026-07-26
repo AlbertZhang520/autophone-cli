@@ -1,0 +1,916 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "runtime_version": {
+      "type": "string",
+      "const": "0.3.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "device": {
+      "type": "object",
+      "properties": {
+        "serial": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "result": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "device_serial": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requested": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "auto",
+                    "lock"
+                  ]
+                },
+                "rotation_degrees": {
+                  "anyOf": [
+                    {
+                      "anyOf": [
+                        {
+                          "type": "number",
+                          "const": 0
+                        },
+                        {
+                          "type": "number",
+                          "const": 90
+                        },
+                        {
+                          "type": "number",
+                          "const": 180
+                        },
+                        {
+                          "type": "number",
+                          "const": 270
+                        }
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "mode",
+                "rotation_degrees"
+              ],
+              "additionalProperties": false
+            },
+            "before": {
+              "type": "object",
+              "properties": {
+                "orientation": {
+                  "type": "object",
+                  "properties": {
+                    "device_serial": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "window_size": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "prefixItems": [
+                            {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "orientation": {
+                      "type": "string",
+                      "enum": [
+                        "portrait",
+                        "landscape",
+                        "unknown"
+                      ]
+                    },
+                    "rotation_degrees": {
+                      "anyOf": [
+                        {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 0
+                            },
+                            {
+                              "type": "number",
+                              "const": 90
+                            },
+                            {
+                              "type": "number",
+                              "const": 180
+                            },
+                            {
+                              "type": "number",
+                              "const": 270
+                            }
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "auto_rotate": {
+                      "anyOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "query": {
+                      "type": "object",
+                      "properties": {
+                        "window_size": {
+                          "type": "object",
+                          "properties": {
+                            "exit_code": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "command_duration_ms": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "method": {
+                              "type": "string",
+                              "const": "wm_size"
+                            }
+                          },
+                          "required": [
+                            "exit_code",
+                            "command_duration_ms",
+                            "method"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "rotation": {
+                          "type": "object",
+                          "properties": {
+                            "exit_code": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "command_duration_ms": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "method": {
+                              "type": "string",
+                              "const": "dumpsys_window"
+                            }
+                          },
+                          "required": [
+                            "exit_code",
+                            "command_duration_ms",
+                            "method"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "auto_rotate": {
+                          "type": "object",
+                          "properties": {
+                            "exit_code": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "command_duration_ms": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "method": {
+                              "type": "string",
+                              "const": "settings_get_accelerometer_rotation"
+                            }
+                          },
+                          "required": [
+                            "exit_code",
+                            "command_duration_ms",
+                            "method"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "window_size",
+                        "rotation",
+                        "auto_rotate"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "verify": {
+                      "type": "object",
+                      "properties": {
+                        "policy": {
+                          "type": "string",
+                          "const": "actual_display_rotation_parse"
+                        },
+                        "ok": {
+                          "type": "boolean",
+                          "const": true
+                        },
+                        "attempts": {
+                          "type": "number",
+                          "const": 1
+                        },
+                        "reason": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "policy",
+                        "ok",
+                        "attempts",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "semantics": {
+                      "type": "string",
+                      "const": "actual_display_rotation_without_ui_dump"
+                    }
+                  },
+                  "required": [
+                    "device_serial",
+                    "window_size",
+                    "orientation",
+                    "rotation_degrees",
+                    "auto_rotate",
+                    "query",
+                    "verify",
+                    "semantics"
+                  ],
+                  "additionalProperties": false
+                },
+                "user_rotation": {
+                  "type": "object",
+                  "properties": {
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "free",
+                        "lock"
+                      ]
+                    },
+                    "rotation_degrees": {
+                      "anyOf": [
+                        {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 0
+                            },
+                            {
+                              "type": "number",
+                              "const": 90
+                            },
+                            {
+                              "type": "number",
+                              "const": 180
+                            },
+                            {
+                              "type": "number",
+                              "const": 270
+                            }
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "mode",
+                    "rotation_degrees"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "orientation",
+                "user_rotation"
+              ],
+              "additionalProperties": false
+            },
+            "set": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "wm_user_rotation"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "free",
+                    "lock"
+                  ]
+                },
+                "rotation_degrees": {
+                  "anyOf": [
+                    {
+                      "anyOf": [
+                        {
+                          "type": "number",
+                          "const": 0
+                        },
+                        {
+                          "type": "number",
+                          "const": 90
+                        },
+                        {
+                          "type": "number",
+                          "const": 180
+                        },
+                        {
+                          "type": "number",
+                          "const": 270
+                        }
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "exit_code": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "command_duration_ms": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "method",
+                "mode",
+                "rotation_degrees",
+                "exit_code",
+                "command_duration_ms"
+              ],
+              "additionalProperties": false
+            },
+            "after": {
+              "type": "object",
+              "properties": {
+                "orientation": {
+                  "type": "object",
+                  "properties": {
+                    "device_serial": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "window_size": {
+                      "anyOf": [
+                        {
+                          "type": "array",
+                          "prefixItems": [
+                            {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "orientation": {
+                      "type": "string",
+                      "enum": [
+                        "portrait",
+                        "landscape",
+                        "unknown"
+                      ]
+                    },
+                    "rotation_degrees": {
+                      "anyOf": [
+                        {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 0
+                            },
+                            {
+                              "type": "number",
+                              "const": 90
+                            },
+                            {
+                              "type": "number",
+                              "const": 180
+                            },
+                            {
+                              "type": "number",
+                              "const": 270
+                            }
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "auto_rotate": {
+                      "anyOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "query": {
+                      "type": "object",
+                      "properties": {
+                        "window_size": {
+                          "type": "object",
+                          "properties": {
+                            "exit_code": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "command_duration_ms": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "method": {
+                              "type": "string",
+                              "const": "wm_size"
+                            }
+                          },
+                          "required": [
+                            "exit_code",
+                            "command_duration_ms",
+                            "method"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "rotation": {
+                          "type": "object",
+                          "properties": {
+                            "exit_code": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "command_duration_ms": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "method": {
+                              "type": "string",
+                              "const": "dumpsys_window"
+                            }
+                          },
+                          "required": [
+                            "exit_code",
+                            "command_duration_ms",
+                            "method"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "auto_rotate": {
+                          "type": "object",
+                          "properties": {
+                            "exit_code": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "command_duration_ms": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "method": {
+                              "type": "string",
+                              "const": "settings_get_accelerometer_rotation"
+                            }
+                          },
+                          "required": [
+                            "exit_code",
+                            "command_duration_ms",
+                            "method"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "window_size",
+                        "rotation",
+                        "auto_rotate"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "verify": {
+                      "type": "object",
+                      "properties": {
+                        "policy": {
+                          "type": "string",
+                          "const": "actual_display_rotation_parse"
+                        },
+                        "ok": {
+                          "type": "boolean",
+                          "const": true
+                        },
+                        "attempts": {
+                          "type": "number",
+                          "const": 1
+                        },
+                        "reason": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "policy",
+                        "ok",
+                        "attempts",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "semantics": {
+                      "type": "string",
+                      "const": "actual_display_rotation_without_ui_dump"
+                    }
+                  },
+                  "required": [
+                    "device_serial",
+                    "window_size",
+                    "orientation",
+                    "rotation_degrees",
+                    "auto_rotate",
+                    "query",
+                    "verify",
+                    "semantics"
+                  ],
+                  "additionalProperties": false
+                },
+                "user_rotation": {
+                  "type": "object",
+                  "properties": {
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "free",
+                        "lock"
+                      ]
+                    },
+                    "rotation_degrees": {
+                      "anyOf": [
+                        {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "const": 0
+                            },
+                            {
+                              "type": "number",
+                              "const": 90
+                            },
+                            {
+                              "type": "number",
+                              "const": 180
+                            },
+                            {
+                              "type": "number",
+                              "const": 270
+                            }
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "mode",
+                    "rotation_degrees"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "orientation",
+                "user_rotation"
+              ],
+              "additionalProperties": false
+            },
+            "verify": {
+              "type": "object",
+              "properties": {
+                "policy": {
+                  "type": "string",
+                  "const": "user_rotation_policy_applied"
+                },
+                "ok": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "attempts": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "policy",
+                "ok",
+                "attempts",
+                "reason"
+              ],
+              "additionalProperties": false
+            },
+            "semantics": {
+              "type": "string",
+              "const": "device_wide_user_rotation_policy"
+            }
+          },
+          "required": [
+            "device_serial",
+            "requested",
+            "before",
+            "set",
+            "after",
+            "verify",
+            "semantics"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "INVALID_REQUEST",
+                "NO_DEVICE",
+                "MULTIPLE_DEVICES",
+                "DEVICE_OFFLINE",
+                "DEVICE_UNAUTHORIZED",
+                "DEVICE_NOT_READY",
+                "SCREEN_LOCKED",
+                "DEVICE_SCREEN_FAILED",
+                "DEVICE_NETWORK_FAILED",
+                "DEVICE_STORAGE_FAILED",
+                "DEVICE_LOCALE_FAILED",
+                "DEVICE_BATTERY_FAILED",
+                "DEVICE_TIME_FAILED",
+                "DEVICE_IME_FAILED",
+                "DEVICE_BRIGHTNESS_FAILED",
+                "DEVICE_ANIMATIONS_FAILED",
+                "DEVICE_ANIMATIONS_SET_FAILED",
+                "DEVICE_ACCESSIBILITY_FAILED",
+                "DEVICE_ORIENTATION_FAILED",
+                "DEVICE_ORIENTATION_SET_FAILED",
+                "DEVICE_STATUSBAR_FAILED",
+                "DEVICE_VOLUME_FAILED",
+                "DEVICE_RINGER_FAILED",
+                "DEVICE_NOTIFICATIONS_FAILED",
+                "DEVICE_CURRENT_USER_FAILED",
+                "DEVICE_USERS_FAILED",
+                "DRIVER_UNAVAILABLE",
+                "UI_DUMP_FAILED",
+                "DUMP_TIMEOUT",
+                "TARGET_NOT_FOUND",
+                "AMBIGUOUS_TARGET",
+                "STALE_SNAPSHOT",
+                "UNSAFE_OPERATION",
+                "TEXT_ENCODING_UNSUPPORTED",
+                "WINDOW_SIZE_UNAVAILABLE",
+                "SCROLL_REGION_TOO_SMALL",
+                "ACTIVITY_RESOLVE_FAILED",
+                "APP_ACTIVITIES_FAILED",
+                "APP_LIST_FAILED",
+                "APP_CLEAR_DATA_FAILED",
+                "APP_INSPECT_FAILED",
+                "APP_INSTALL_FAILED",
+                "APP_LAUNCH_FAILED",
+                "APP_LINKS_FAILED",
+                "APP_GRAPHICS_FAILED",
+                "APP_MEMORY_FAILED",
+                "APP_NOT_RUNNING",
+                "APP_PACKAGE_INFO_FAILED",
+                "APP_PIDS_FAILED",
+                "APP_OPS_FAILED",
+                "APP_OPEN_URL_FAILED",
+                "APP_RESOLVE_URL_FAILED",
+                "APP_PERMISSION_FAILED",
+                "APP_PERMISSION_INSPECT_FAILED",
+                "APP_STOP_FAILED",
+                "APP_UNINSTALL_FAILED",
+                "CLIPBOARD_GET_FAILED",
+                "CLIPBOARD_SET_FAILED",
+                "CLIPBOARD_UNSUPPORTED",
+                "FILE_PUSH_FAILED",
+                "FILE_PULL_FAILED",
+                "FILE_STAT_FAILED",
+                "FILE_HASH_FAILED",
+                "FILE_RM_FAILED",
+                "FILE_LIST_FAILED",
+                "FILE_MKDIR_FAILED",
+                "FILE_MOVE_FAILED",
+                "FILE_COPY_FAILED",
+                "ACTION_TIMEOUT",
+                "LOGS_UNAVAILABLE",
+                "VERIFY_FAILED",
+                "WAIT_TIMEOUT",
+                "PROOF_DIR_INVALID",
+                "PROOF_WRITE_FAILED",
+                "RECIPE_INVALID",
+                "RECIPE_STEP_FAILED",
+                "RECIPE_ABORTED",
+                "RECIPE_PREDICATE_FAILED",
+                "SCREENSHOT_INVALID",
+                "SCREENRECORD_FAILED",
+                "OUTPUT_EXISTS",
+                "OUTPUT_WRITE_FAILED",
+                "ADB_ERROR",
+                "INTERNAL"
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "retriable": {
+              "default": false,
+              "type": "boolean"
+            },
+            "details": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {}
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "retriable"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trace": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "schema_version",
+    "runtime_version",
+    "request_id",
+    "ok",
+    "command",
+    "duration_ms",
+    "result",
+    "error",
+    "warnings",
+    "trace"
+  ],
+  "additionalProperties": false,
+  "$id": "device-orientation-set-response"
+}

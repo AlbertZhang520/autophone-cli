@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "remote_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "confirm_remote": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "missing_ok": {
+      "default": false,
+      "type": "boolean"
+    },
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "remote_path",
+    "confirm_remote",
+    "missing_ok",
+    "timeout_ms",
+    "device_serial"
+  ],
+  "additionalProperties": false,
+  "$id": "files-rm-request"
+}

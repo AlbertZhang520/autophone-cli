@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested": {
+      "type": "object",
+      "properties": {
+        "remote_path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "missing_ok": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "remote_path",
+        "missing_ok"
+      ],
+      "additionalProperties": false
+    },
+    "before": {
+      "type": "object",
+      "properties": {
+        "exists": {
+          "type": "boolean"
+        },
+        "entry": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "regular_file",
+                    "directory",
+                    "symlink",
+                    "other"
+                  ]
+                },
+                "bytes": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "modified_unix_ms": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "kind",
+                "bytes",
+                "modified_unix_ms"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "exists",
+        "entry"
+      ],
+      "additionalProperties": false
+    },
+    "remove": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "const": "device_rm"
+            },
+            "exit_code": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "command_duration_ms": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "method",
+            "exit_code",
+            "command_duration_ms"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "const": "skipped_missing_ok"
+            },
+            "exit_code": {
+              "type": "null"
+            },
+            "command_duration_ms": {
+              "type": "number",
+              "const": 0
+            }
+          },
+          "required": [
+            "method",
+            "exit_code",
+            "command_duration_ms"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "removed": {
+      "type": "boolean"
+    },
+    "after_exists": {
+      "type": "boolean",
+      "const": false
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "const": "stat_absent_after_rm"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true
+        },
+        "attempts": {
+          "anyOf": [
+            {
+              "type": "number",
+              "const": 1
+            },
+            {
+              "type": "number",
+              "const": 2
+            }
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "string",
+      "const": "single_path_non_recursive_remove"
+    }
+  },
+  "required": [
+    "device_serial",
+    "requested",
+    "before",
+    "remove",
+    "removed",
+    "after_exists",
+    "verify",
+    "semantics"
+  ],
+  "additionalProperties": false,
+  "$id": "files-rm-result"
+}

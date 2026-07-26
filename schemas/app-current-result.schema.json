@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "package": {
+      "type": "string"
+    },
+    "activity": {
+      "type": "string"
+    },
+    "focused": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "device_serial",
+    "package",
+    "activity",
+    "focused"
+  ],
+  "additionalProperties": false,
+  "$id": "app-current-result"
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "package_name": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+$"
+    },
+    "activity": {
+      "type": "string",
+      "pattern": "^(\\.[A-Za-z_$][A-Za-z0-9_.$]*|[A-Za-z_$][A-Za-z0-9_.$]*)$"
+    },
+    "verify": {
+      "default": "package_foreground",
+      "type": "string",
+      "enum": [
+        "package_foreground",
+        "none"
+      ]
+    },
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "package_name",
+    "activity",
+    "verify",
+    "timeout_ms"
+  ],
+  "additionalProperties": false,
+  "$id": "app-start-request"
+}

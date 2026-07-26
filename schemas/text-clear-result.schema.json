@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "strategy": {
+      "type": "string",
+      "const": "move_end_then_backspace"
+    },
+    "max_chars": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "key_events": {
+      "type": "object",
+      "properties": {
+        "move_end": {
+          "type": "number",
+          "const": 1
+        },
+        "delete": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "total": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "move_end",
+        "delete",
+        "total"
+      ],
+      "additionalProperties": false
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "enum": [
+            "field_text",
+            "screen_changed",
+            "none"
+          ]
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "reason": {
+          "type": "string"
+        },
+        "changed_fields": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ui_hash",
+              "package",
+              "activity"
+            ]
+          }
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason",
+        "changed_fields"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "strategy",
+    "max_chars",
+    "key_events",
+    "verify"
+  ],
+  "additionalProperties": false,
+  "$id": "text-clear-result"
+}

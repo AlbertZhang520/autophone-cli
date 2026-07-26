@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "apk_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "apk": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "file_name",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "replace": {
+      "default": false,
+      "type": "boolean"
+    },
+    "grant_runtime_permissions": {
+      "default": false,
+      "type": "boolean"
+    },
+    "allow_test": {
+      "default": false,
+      "type": "boolean"
+    },
+    "allow_downgrade": {
+      "default": false,
+      "type": "boolean"
+    },
+    "timeout_ms": {
+      "default": 120000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 600000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "apk_path",
+    "apk",
+    "replace",
+    "grant_runtime_permissions",
+    "allow_test",
+    "allow_downgrade",
+    "timeout_ms",
+    "device_serial"
+  ],
+  "additionalProperties": false,
+  "$id": "app-install-request"
+}

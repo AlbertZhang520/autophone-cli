@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "allOf": [
+            {
+              "pattern": "\\S"
+            },
+            {
+              "pattern": "^[\\x20-\\x24\\x26-\\x5B\\x5D-\\x7E]+$"
+            }
+          ]
+        },
+        "via": {
+          "default": "input_text",
+          "type": "string",
+          "const": "input_text"
+        },
+        "verify": {
+          "default": "none",
+          "type": "string",
+          "enum": [
+            "field_text",
+            "screen_changed",
+            "none"
+          ]
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 120000
+        },
+        "device_serial": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "text",
+        "via",
+        "verify",
+        "timeout_ms"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "allOf": [
+            {
+              "pattern": "\\S"
+            },
+            {
+              "pattern": "^[^\\u0000-\\u001F\\u007F-\\u009F]*$"
+            },
+            {
+              "pattern": "^(?:[^\\uD800-\\uDFFF]|[\\uD800-\\uDBFF][\\uDC00-\\uDFFF])*$"
+            }
+          ]
+        },
+        "via": {
+          "type": "string",
+          "const": "adb_keyboard"
+        },
+        "verify": {
+          "default": "none",
+          "type": "string",
+          "enum": [
+            "field_text",
+            "screen_changed",
+            "none"
+          ]
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 120000
+        },
+        "device_serial": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "text",
+        "via",
+        "verify",
+        "timeout_ms"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "allOf": [
+            {
+              "pattern": "\\S"
+            },
+            {
+              "pattern": "^[^\\u0000-\\u001F\\u007F-\\u009F]*$"
+            },
+            {
+              "pattern": "^(?:[^\\uD800-\\uDFFF]|[\\uD800-\\uDBFF][\\uDC00-\\uDFFF])*$"
+            }
+          ]
+        },
+        "via": {
+          "type": "string",
+          "const": "clipboard"
+        },
+        "verify": {
+          "default": "none",
+          "type": "string",
+          "enum": [
+            "field_text",
+            "screen_changed",
+            "none"
+          ]
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 120000
+        },
+        "device_serial": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "text",
+        "via",
+        "verify",
+        "timeout_ms"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "$id": "text-input-request"
+}

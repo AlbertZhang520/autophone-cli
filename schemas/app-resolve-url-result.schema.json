@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested": {
+      "type": "object",
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "enum": [
+            "http",
+            "https"
+          ]
+        },
+        "hostname": {
+          "type": "string",
+          "minLength": 1
+        },
+        "port": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "path_present": {
+          "type": "boolean"
+        },
+        "query_present": {
+          "type": "boolean"
+        },
+        "fragment_present": {
+          "type": "boolean"
+        },
+        "url_length": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "scheme",
+        "hostname",
+        "port",
+        "path_present",
+        "query_present",
+        "fragment_present",
+        "url_length"
+      ],
+      "additionalProperties": false
+    },
+    "resolution": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "none"
+            },
+            "component": {
+              "type": "null"
+            },
+            "package": {
+              "type": "null"
+            },
+            "activity": {
+              "type": "null"
+            },
+            "is_system_resolver": {
+              "type": "boolean",
+              "const": false
+            }
+          },
+          "required": [
+            "type",
+            "component",
+            "package",
+            "activity",
+            "is_system_resolver"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "activity"
+            },
+            "component": {
+              "type": "string",
+              "minLength": 1
+            },
+            "package": {
+              "type": "string",
+              "minLength": 1
+            },
+            "activity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "is_system_resolver": {
+              "type": "boolean",
+              "const": false
+            }
+          },
+          "required": [
+            "type",
+            "component",
+            "package",
+            "activity",
+            "is_system_resolver"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "resolver"
+            },
+            "component": {
+              "type": "string",
+              "minLength": 1
+            },
+            "package": {
+              "type": "string",
+              "minLength": 1
+            },
+            "activity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "is_system_resolver": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "required": [
+            "type",
+            "component",
+            "package",
+            "activity",
+            "is_system_resolver"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "metadata": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "priority": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "preferred_order": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "match": {
+              "type": "object",
+              "properties": {
+                "raw": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-fA-F]+$"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "raw",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            "specific_index": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "is_default": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "priority",
+            "preferred_order",
+            "match",
+            "specific_index",
+            "is_default"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "cmd_package_resolve_activity"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "command_duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "method",
+        "exit_code",
+        "command_duration_ms"
+      ],
+      "additionalProperties": false
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "const": "package_manager_resolve_activity_parse"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true
+        },
+        "attempts": {
+          "type": "number",
+          "const": 1
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "string",
+      "const": "read_only_url_intent_resolution_not_launchability_or_network_proof"
+    }
+  },
+  "required": [
+    "device_serial",
+    "requested",
+    "resolution",
+    "metadata",
+    "query",
+    "verify",
+    "semantics"
+  ],
+  "additionalProperties": false,
+  "$id": "app-resolve-url-result"
+}

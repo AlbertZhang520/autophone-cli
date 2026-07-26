@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z0-9_]+)*$"
+      }
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "all",
+        "third_party",
+        "system"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "all",
+        "enabled",
+        "disabled"
+      ]
+    },
+    "include_uninstalled": {
+      "type": "boolean"
+    },
+    "filter": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "device_serial",
+    "packages",
+    "count",
+    "scope",
+    "state",
+    "include_uninstalled",
+    "filter"
+  ],
+  "additionalProperties": false,
+  "$id": "app-list-result"
+}

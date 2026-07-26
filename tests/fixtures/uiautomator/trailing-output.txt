@@ -1,0 +1,6 @@
+UI hierchary dumped to: /dev/tty
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<hierarchy rotation="0">
+  <node index="0" text="12345" resource-id="com.example:id/number_text" class="android.widget.TextView" package="com.example" content-desc="" bounds="[1,2][21,22]" enabled="true" clickable="false" focused="false" />
+</hierarchy>
+UI hierchary dumped to: /dev/tty

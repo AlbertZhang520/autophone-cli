@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "local_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "local_file": {
+      "type": "object",
+      "properties": {
+        "file_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "file_name",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "remote_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "compression": {
+      "default": "adb_default",
+      "type": "string",
+      "enum": [
+        "adb_default",
+        "any",
+        "none",
+        "brotli",
+        "lz4",
+        "zstd",
+        "disabled"
+      ]
+    },
+    "timeout_ms": {
+      "default": 120000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 600000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "local_path",
+    "local_file",
+    "remote_path",
+    "compression",
+    "timeout_ms",
+    "device_serial"
+  ],
+  "additionalProperties": false,
+  "$id": "files-push-request"
+}

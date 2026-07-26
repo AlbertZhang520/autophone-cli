@@ -1,0 +1,46 @@
+{
+  "name": "autophone-cli",
+  "version": "0.3.0",
+  "description": "Agent-facing Android control runtime with structured observe-act-verify contracts.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "autophone": "dist/cli/main.js"
+  },
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "pnpm clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "schemas": "tsx scripts/generate-schemas.ts",
+    "check:schemas": "pnpm schemas && tsx scripts/check-generated-schemas.ts",
+    "skill:gen": "tsx scripts/generate-skill-refs.ts",
+    "check:skills": "pnpm skill:gen && tsx scripts/check-generated-skill-refs.ts",
+    "check:architecture": "tsx scripts/check-architecture.ts",
+    "lint:deps": "depcruise src --config dependency-cruiser.config.cjs",
+    "check": "pnpm check:schemas && pnpm check:skills && pnpm check:architecture && pnpm typecheck && pnpm test && pnpm lint:deps",
+    "prepack": "pnpm build && pnpm schemas",
+    "prepublishOnly": "pnpm check"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "fast-xml-parser": "^5.3.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "ajv": "^8.20.0",
+    "dependency-cruiser": "^18.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.0",
+    "vitest": "^4.1.9"
+  }
+}

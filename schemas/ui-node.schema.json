@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "source_index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "text": {
+      "default": "",
+      "type": "string"
+    },
+    "resource_id": {
+      "default": "",
+      "type": "string"
+    },
+    "content_desc": {
+      "default": "",
+      "type": "string"
+    },
+    "class_name": {
+      "default": "",
+      "type": "string"
+    },
+    "package_name": {
+      "default": "",
+      "type": "string"
+    },
+    "bounds": {
+      "anyOf": [
+        {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          ],
+          "description": "[left, top, right, bottom] in device pixels"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "enabled": {
+      "default": null,
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "clickable": {
+      "default": null,
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "focused": {
+      "default": null,
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "source_index",
+    "text",
+    "resource_id",
+    "content_desc",
+    "class_name",
+    "package_name",
+    "bounds",
+    "enabled",
+    "clickable",
+    "focused"
+  ],
+  "additionalProperties": false,
+  "$id": "ui-node"
+}

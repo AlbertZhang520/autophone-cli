@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "remote_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "remote_path",
+    "timeout_ms",
+    "device_serial"
+  ],
+  "additionalProperties": false,
+  "$id": "files-mkdir-request"
+}

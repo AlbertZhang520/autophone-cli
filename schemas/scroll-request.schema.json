@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "direction": {
+      "type": "string",
+      "enum": [
+        "down",
+        "up",
+        "left",
+        "right"
+      ]
+    },
+    "amount": {
+      "default": "medium",
+      "type": "string",
+      "enum": [
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    "within": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resource_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_desc": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "duration_ms": {
+      "default": 300,
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 2000
+    },
+    "verify": {
+      "default": "none",
+      "type": "string",
+      "enum": [
+        "screen_changed",
+        "none"
+      ]
+    },
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "direction",
+    "amount",
+    "duration_ms",
+    "verify",
+    "timeout_ms"
+  ],
+  "additionalProperties": false,
+  "$id": "scroll-request"
+}

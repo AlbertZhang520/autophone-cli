@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "window_animation_scale": {
+          "type": "object",
+          "properties": {
+            "raw": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "raw",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "transition_animation_scale": {
+          "type": "object",
+          "properties": {
+            "raw": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "raw",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "animator_duration_scale": {
+          "type": "object",
+          "properties": {
+            "raw": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "raw",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "window_animation_scale",
+        "transition_animation_scale",
+        "animator_duration_scale"
+      ],
+      "additionalProperties": false
+    },
+    "animations_disabled": {
+      "type": "boolean"
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "settings_global_window_animation_scale",
+                  "settings_global_transition_animation_scale",
+                  "settings_global_animator_duration_scale"
+                ]
+              },
+              "exit_code": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "command_duration_ms": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "method",
+              "exit_code",
+              "command_duration_ms"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "const": "animation_scale_settings_parse"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true
+        },
+        "attempts": {
+          "type": "number",
+          "const": 1
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "string",
+      "const": "read_only_animation_scale_settings_not_runtime_animation_state"
+    }
+  },
+  "required": [
+    "device_serial",
+    "settings",
+    "animations_disabled",
+    "query",
+    "verify",
+    "semantics"
+  ],
+  "additionalProperties": false,
+  "$id": "device-animations-get-result"
+}

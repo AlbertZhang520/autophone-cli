@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "source_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "dest_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "confirm_source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "source_path",
+    "dest_path",
+    "confirm_source",
+    "timeout_ms",
+    "device_serial"
+  ],
+  "additionalProperties": false,
+  "$id": "files-move-request"
+}

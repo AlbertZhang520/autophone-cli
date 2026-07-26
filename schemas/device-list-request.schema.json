@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    }
+  },
+  "required": [
+    "timeout_ms"
+  ],
+  "additionalProperties": false,
+  "$id": "device-list-request"
+}

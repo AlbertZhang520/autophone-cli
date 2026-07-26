@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "remote_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "output_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "overwrite": {
+      "default": false,
+      "type": "boolean"
+    },
+    "compression": {
+      "default": "adb_default",
+      "type": "string",
+      "enum": [
+        "adb_default",
+        "any",
+        "none",
+        "brotli",
+        "lz4",
+        "zstd",
+        "disabled"
+      ]
+    },
+    "timeout_ms": {
+      "default": 120000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 600000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "remote_path",
+    "output_path",
+    "overwrite",
+    "compression",
+    "timeout_ms",
+    "device_serial"
+  ],
+  "additionalProperties": false,
+  "$id": "files-pull-request"
+}

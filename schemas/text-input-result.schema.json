@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "charset": {
+      "type": "string",
+      "enum": [
+        "adb_shell_printable_ascii",
+        "adb_keyboard_utf8",
+        "clipboard_utf8"
+      ]
+    },
+    "via": {
+      "type": "string",
+      "enum": [
+        "input_text",
+        "adb_keyboard",
+        "clipboard"
+      ]
+    },
+    "text_length": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "encoded_length": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "codepoint_length": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "enum": [
+            "field_text",
+            "screen_changed",
+            "none"
+          ]
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "reason": {
+          "type": "string"
+        },
+        "changed_fields": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ui_hash",
+              "package",
+              "activity"
+            ]
+          }
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason",
+        "changed_fields"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "charset",
+    "via",
+    "text_length",
+    "encoded_length",
+    "codepoint_length",
+    "verify"
+  ],
+  "additionalProperties": false,
+  "$id": "text-input-result"
+}

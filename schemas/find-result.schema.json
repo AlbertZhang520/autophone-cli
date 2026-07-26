@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selector": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resource_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_desc": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "selector_diagnostics": {
+      "type": "object",
+      "properties": {
+        "fingerprint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ambiguity_score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "candidate_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "fingerprint",
+        "ambiguity_score",
+        "candidate_count"
+      ],
+      "additionalProperties": false
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "total_elements": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "usable_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "text": {
+            "default": "",
+            "type": "string"
+          },
+          "resource_id": {
+            "default": "",
+            "type": "string"
+          },
+          "content_desc": {
+            "default": "",
+            "type": "string"
+          },
+          "class_name": {
+            "default": "",
+            "type": "string"
+          },
+          "package_name": {
+            "default": "",
+            "type": "string"
+          },
+          "bounds": {
+            "anyOf": [
+              {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": -9007199254740991,
+                    "maximum": 9007199254740991
+                  }
+                ],
+                "description": "[left, top, right, bottom] in device pixels"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "enabled": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "clickable": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "focused": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "candidate_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "center": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            ],
+            "description": "[x, y] in device pixels"
+          }
+        },
+        "required": [
+          "source_index",
+          "text",
+          "resource_id",
+          "content_desc",
+          "class_name",
+          "package_name",
+          "bounds",
+          "enabled",
+          "clickable",
+          "focused",
+          "candidate_index",
+          "center"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "snapshot_id",
+    "device_serial",
+    "selector",
+    "count",
+    "total_elements",
+    "usable_only",
+    "candidates"
+  ],
+  "additionalProperties": false,
+  "$id": "find-result"
+}

@@ -1,0 +1,480 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "runtime_version": {
+      "type": "string",
+      "const": "0.3.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "device": {
+      "type": "object",
+      "properties": {
+        "serial": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "result": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "device_serial": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requested": {
+              "type": "object",
+              "properties": {
+                "package_name": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z0-9_]+)*$"
+                },
+                "op_name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "^[A-Z][A-Z0-9_]*$"
+                },
+                "user_id": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 2147483647
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "package_name",
+                "op_name",
+                "user_id"
+              ],
+              "additionalProperties": false
+            },
+            "lookup": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "resolved",
+                    "no_uid"
+                  ]
+                },
+                "uid_resolved": {
+                  "type": "boolean"
+                },
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "appops_uid_resolved",
+                    "no_appops_uid_for_package_in_queried_user"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "uid_resolved",
+                "reason"
+              ],
+              "additionalProperties": false
+            },
+            "default_mode": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "raw": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "pattern": "^[^\\s;:\\u0000-\\u001f\\u007f]+$"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "allow",
+                        "ignore",
+                        "deny",
+                        "default",
+                        "foreground",
+                        "ask",
+                        "unknown"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "raw",
+                    "kind"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "entries": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "uid",
+                      "package"
+                    ]
+                  },
+                  "op_name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "^[A-Z][A-Z0-9_]*$"
+                  },
+                  "mode": {
+                    "type": "object",
+                    "properties": {
+                      "raw": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "^[^\\s;:\\u0000-\\u001f\\u007f]+$"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "allow",
+                          "ignore",
+                          "deny",
+                          "default",
+                          "foreground",
+                          "ask",
+                          "unknown"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "raw",
+                      "kind"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "details": {
+                    "type": "object",
+                    "properties": {
+                      "time_raw": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "reject_time_raw": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "duration_raw": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "time_raw",
+                      "reject_time_raw",
+                      "duration_raw"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "scope",
+                  "op_name",
+                  "mode",
+                  "details"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "entry_count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "cmd_appops_get"
+                },
+                "exit_code": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "command_duration_ms": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "method",
+                "exit_code",
+                "command_duration_ms"
+              ],
+              "additionalProperties": false
+            },
+            "verify": {
+              "type": "object",
+              "properties": {
+                "policy": {
+                  "type": "string",
+                  "const": "cmd_appops_get_single_op_parse"
+                },
+                "ok": {
+                  "type": "boolean",
+                  "const": true
+                },
+                "attempts": {
+                  "type": "number",
+                  "const": 1
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "policy",
+                "ok",
+                "attempts",
+                "reason"
+              ],
+              "additionalProperties": false
+            },
+            "semantics": {
+              "type": "string",
+              "const": "read_only_appops_single_op_snapshot_not_runtime_permission_or_effective_behavior_proof"
+            }
+          },
+          "required": [
+            "device_serial",
+            "requested",
+            "lookup",
+            "default_mode",
+            "entries",
+            "entry_count",
+            "query",
+            "verify",
+            "semantics"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "INVALID_REQUEST",
+                "NO_DEVICE",
+                "MULTIPLE_DEVICES",
+                "DEVICE_OFFLINE",
+                "DEVICE_UNAUTHORIZED",
+                "DEVICE_NOT_READY",
+                "SCREEN_LOCKED",
+                "DEVICE_SCREEN_FAILED",
+                "DEVICE_NETWORK_FAILED",
+                "DEVICE_STORAGE_FAILED",
+                "DEVICE_LOCALE_FAILED",
+                "DEVICE_BATTERY_FAILED",
+                "DEVICE_TIME_FAILED",
+                "DEVICE_IME_FAILED",
+                "DEVICE_BRIGHTNESS_FAILED",
+                "DEVICE_ANIMATIONS_FAILED",
+                "DEVICE_ANIMATIONS_SET_FAILED",
+                "DEVICE_ACCESSIBILITY_FAILED",
+                "DEVICE_ORIENTATION_FAILED",
+                "DEVICE_ORIENTATION_SET_FAILED",
+                "DEVICE_STATUSBAR_FAILED",
+                "DEVICE_VOLUME_FAILED",
+                "DEVICE_RINGER_FAILED",
+                "DEVICE_NOTIFICATIONS_FAILED",
+                "DEVICE_CURRENT_USER_FAILED",
+                "DEVICE_USERS_FAILED",
+                "DRIVER_UNAVAILABLE",
+                "UI_DUMP_FAILED",
+                "DUMP_TIMEOUT",
+                "TARGET_NOT_FOUND",
+                "AMBIGUOUS_TARGET",
+                "STALE_SNAPSHOT",
+                "UNSAFE_OPERATION",
+                "TEXT_ENCODING_UNSUPPORTED",
+                "WINDOW_SIZE_UNAVAILABLE",
+                "SCROLL_REGION_TOO_SMALL",
+                "ACTIVITY_RESOLVE_FAILED",
+                "APP_ACTIVITIES_FAILED",
+                "APP_LIST_FAILED",
+                "APP_CLEAR_DATA_FAILED",
+                "APP_INSPECT_FAILED",
+                "APP_INSTALL_FAILED",
+                "APP_LAUNCH_FAILED",
+                "APP_LINKS_FAILED",
+                "APP_GRAPHICS_FAILED",
+                "APP_MEMORY_FAILED",
+                "APP_NOT_RUNNING",
+                "APP_PACKAGE_INFO_FAILED",
+                "APP_PIDS_FAILED",
+                "APP_OPS_FAILED",
+                "APP_OPEN_URL_FAILED",
+                "APP_RESOLVE_URL_FAILED",
+                "APP_PERMISSION_FAILED",
+                "APP_PERMISSION_INSPECT_FAILED",
+                "APP_STOP_FAILED",
+                "APP_UNINSTALL_FAILED",
+                "CLIPBOARD_GET_FAILED",
+                "CLIPBOARD_SET_FAILED",
+                "CLIPBOARD_UNSUPPORTED",
+                "FILE_PUSH_FAILED",
+                "FILE_PULL_FAILED",
+                "FILE_STAT_FAILED",
+                "FILE_HASH_FAILED",
+                "FILE_RM_FAILED",
+                "FILE_LIST_FAILED",
+                "FILE_MKDIR_FAILED",
+                "FILE_MOVE_FAILED",
+                "FILE_COPY_FAILED",
+                "ACTION_TIMEOUT",
+                "LOGS_UNAVAILABLE",
+                "VERIFY_FAILED",
+                "WAIT_TIMEOUT",
+                "PROOF_DIR_INVALID",
+                "PROOF_WRITE_FAILED",
+                "RECIPE_INVALID",
+                "RECIPE_STEP_FAILED",
+                "RECIPE_ABORTED",
+                "RECIPE_PREDICATE_FAILED",
+                "SCREENSHOT_INVALID",
+                "SCREENRECORD_FAILED",
+                "OUTPUT_EXISTS",
+                "OUTPUT_WRITE_FAILED",
+                "ADB_ERROR",
+                "INTERNAL"
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "retriable": {
+              "default": false,
+              "type": "boolean"
+            },
+            "details": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {}
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "retriable"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trace": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "schema_version",
+    "runtime_version",
+    "request_id",
+    "ok",
+    "command",
+    "duration_ms",
+    "result",
+    "error",
+    "warnings",
+    "trace"
+  ],
+  "additionalProperties": false,
+  "$id": "app-ops-get-response"
+}

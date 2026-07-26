@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "wait_timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "interval_ms": {
+      "default": 500,
+      "type": "integer",
+      "minimum": 50,
+      "maximum": 10000
+    },
+    "poll_timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "selector": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resource_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_desc": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "condition": {
+      "default": "present",
+      "type": "string",
+      "enum": [
+        "present",
+        "absent"
+      ]
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "wait_timeout_ms",
+    "interval_ms",
+    "poll_timeout_ms",
+    "selector",
+    "condition"
+  ],
+  "additionalProperties": false,
+  "$id": "wait-ui-request"
+}

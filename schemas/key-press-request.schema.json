@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "enum": [
+        "BACK",
+        "HOME",
+        "ENTER",
+        "TAB",
+        "ESCAPE",
+        "DEL",
+        "DPAD_UP",
+        "DPAD_DOWN",
+        "DPAD_LEFT",
+        "DPAD_RIGHT",
+        "DPAD_CENTER",
+        "APP_SWITCH",
+        "MOVE_HOME",
+        "MOVE_END",
+        "MENU",
+        "SEARCH"
+      ]
+    },
+    "verify": {
+      "default": "none",
+      "type": "string",
+      "enum": [
+        "screen_changed",
+        "none"
+      ]
+    },
+    "timeout_ms": {
+      "default": 10000,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 120000
+    },
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "key",
+    "verify",
+    "timeout_ms"
+  ],
+  "additionalProperties": false,
+  "$id": "key-press-request"
+}

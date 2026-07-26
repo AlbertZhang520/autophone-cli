@@ -1,0 +1,458 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "0.1"
+    },
+    "runtime_version": {
+      "type": "string",
+      "const": "0.3.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "device": {
+      "type": "object",
+      "properties": {
+        "serial": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "result": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "condition": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "ui"
+                },
+                "selector": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "resource_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "content_desc": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "class_name": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "present",
+                    "absent"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "selector",
+                "mode"
+              ],
+              "additionalProperties": false
+            },
+            "present": {
+              "type": "boolean"
+            },
+            "matched_nodes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "attempts": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            "elapsed_ms": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "snapshot_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "device_serial": {
+              "type": "string",
+              "minLength": 1
+            },
+            "selector_diagnostics": {
+              "type": "object",
+              "properties": {
+                "fingerprint": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ambiguity_score": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "candidate_count": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "fingerprint",
+                "ambiguity_score",
+                "candidate_count"
+              ],
+              "additionalProperties": false
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "total_elements": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "usable_only": {
+              "type": "boolean",
+              "const": true
+            },
+            "candidates": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "source_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "text": {
+                    "default": "",
+                    "type": "string"
+                  },
+                  "resource_id": {
+                    "default": "",
+                    "type": "string"
+                  },
+                  "content_desc": {
+                    "default": "",
+                    "type": "string"
+                  },
+                  "class_name": {
+                    "default": "",
+                    "type": "string"
+                  },
+                  "package_name": {
+                    "default": "",
+                    "type": "string"
+                  },
+                  "bounds": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          }
+                        ],
+                        "description": "[left, top, right, bottom] in device pixels"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "enabled": {
+                    "default": null,
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "clickable": {
+                    "default": null,
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "focused": {
+                    "default": null,
+                    "anyOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "candidate_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "center": {
+                    "type": "array",
+                    "prefixItems": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    ],
+                    "description": "[x, y] in device pixels"
+                  }
+                },
+                "required": [
+                  "source_index",
+                  "text",
+                  "resource_id",
+                  "content_desc",
+                  "class_name",
+                  "package_name",
+                  "bounds",
+                  "enabled",
+                  "clickable",
+                  "focused",
+                  "candidate_index",
+                  "center"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "condition",
+            "present",
+            "matched_nodes",
+            "attempts",
+            "elapsed_ms",
+            "snapshot_id",
+            "device_serial",
+            "count",
+            "total_elements",
+            "usable_only",
+            "candidates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "INVALID_REQUEST",
+                "NO_DEVICE",
+                "MULTIPLE_DEVICES",
+                "DEVICE_OFFLINE",
+                "DEVICE_UNAUTHORIZED",
+                "DEVICE_NOT_READY",
+                "SCREEN_LOCKED",
+                "DEVICE_SCREEN_FAILED",
+                "DEVICE_NETWORK_FAILED",
+                "DEVICE_STORAGE_FAILED",
+                "DEVICE_LOCALE_FAILED",
+                "DEVICE_BATTERY_FAILED",
+                "DEVICE_TIME_FAILED",
+                "DEVICE_IME_FAILED",
+                "DEVICE_BRIGHTNESS_FAILED",
+                "DEVICE_ANIMATIONS_FAILED",
+                "DEVICE_ANIMATIONS_SET_FAILED",
+                "DEVICE_ACCESSIBILITY_FAILED",
+                "DEVICE_ORIENTATION_FAILED",
+                "DEVICE_ORIENTATION_SET_FAILED",
+                "DEVICE_STATUSBAR_FAILED",
+                "DEVICE_VOLUME_FAILED",
+                "DEVICE_RINGER_FAILED",
+                "DEVICE_NOTIFICATIONS_FAILED",
+                "DEVICE_CURRENT_USER_FAILED",
+                "DEVICE_USERS_FAILED",
+                "DRIVER_UNAVAILABLE",
+                "UI_DUMP_FAILED",
+                "DUMP_TIMEOUT",
+                "TARGET_NOT_FOUND",
+                "AMBIGUOUS_TARGET",
+                "STALE_SNAPSHOT",
+                "UNSAFE_OPERATION",
+                "TEXT_ENCODING_UNSUPPORTED",
+                "WINDOW_SIZE_UNAVAILABLE",
+                "SCROLL_REGION_TOO_SMALL",
+                "ACTIVITY_RESOLVE_FAILED",
+                "APP_ACTIVITIES_FAILED",
+                "APP_LIST_FAILED",
+                "APP_CLEAR_DATA_FAILED",
+                "APP_INSPECT_FAILED",
+                "APP_INSTALL_FAILED",
+                "APP_LAUNCH_FAILED",
+                "APP_LINKS_FAILED",
+                "APP_GRAPHICS_FAILED",
+                "APP_MEMORY_FAILED",
+                "APP_NOT_RUNNING",
+                "APP_PACKAGE_INFO_FAILED",
+                "APP_PIDS_FAILED",
+                "APP_OPS_FAILED",
+                "APP_OPEN_URL_FAILED",
+                "APP_RESOLVE_URL_FAILED",
+                "APP_PERMISSION_FAILED",
+                "APP_PERMISSION_INSPECT_FAILED",
+                "APP_STOP_FAILED",
+                "APP_UNINSTALL_FAILED",
+                "CLIPBOARD_GET_FAILED",
+                "CLIPBOARD_SET_FAILED",
+                "CLIPBOARD_UNSUPPORTED",
+                "FILE_PUSH_FAILED",
+                "FILE_PULL_FAILED",
+                "FILE_STAT_FAILED",
+                "FILE_HASH_FAILED",
+                "FILE_RM_FAILED",
+                "FILE_LIST_FAILED",
+                "FILE_MKDIR_FAILED",
+                "FILE_MOVE_FAILED",
+                "FILE_COPY_FAILED",
+                "ACTION_TIMEOUT",
+                "LOGS_UNAVAILABLE",
+                "VERIFY_FAILED",
+                "WAIT_TIMEOUT",
+                "PROOF_DIR_INVALID",
+                "PROOF_WRITE_FAILED",
+                "RECIPE_INVALID",
+                "RECIPE_STEP_FAILED",
+                "RECIPE_ABORTED",
+                "RECIPE_PREDICATE_FAILED",
+                "SCREENSHOT_INVALID",
+                "SCREENRECORD_FAILED",
+                "OUTPUT_EXISTS",
+                "OUTPUT_WRITE_FAILED",
+                "ADB_ERROR",
+                "INTERNAL"
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "retriable": {
+              "default": false,
+              "type": "boolean"
+            },
+            "details": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {}
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "retriable"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trace": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "schema_version",
+    "runtime_version",
+    "request_id",
+    "ok",
+    "command",
+    "duration_ms",
+    "result",
+    "error",
+    "warnings",
+    "trace"
+  ],
+  "additionalProperties": false,
+  "$id": "wait-ui-response"
+}

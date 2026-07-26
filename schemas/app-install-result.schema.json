@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "device_serial": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested": {
+      "type": "object",
+      "properties": {
+        "apk": {
+          "type": "object",
+          "properties": {
+            "file_name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "file_name",
+            "bytes",
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "replace": {
+          "type": "boolean"
+        },
+        "grant_runtime_permissions": {
+          "type": "boolean"
+        },
+        "allow_test": {
+          "type": "boolean"
+        },
+        "allow_downgrade": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "apk",
+        "replace",
+        "grant_runtime_permissions",
+        "allow_test",
+        "allow_downgrade"
+      ],
+      "additionalProperties": false
+    },
+    "install": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "adb_install"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "command_duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "method",
+        "exit_code",
+        "command_duration_ms"
+      ],
+      "additionalProperties": false
+    },
+    "verify": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": "string",
+          "const": "adb_success"
+        },
+        "ok": {
+          "type": "boolean",
+          "const": true
+        },
+        "attempts": {
+          "type": "number",
+          "const": 1
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy",
+        "ok",
+        "attempts",
+        "reason"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "device_serial",
+    "requested",
+    "install",
+    "verify"
+  ],
+  "additionalProperties": false,
+  "$id": "app-install-result"
+}

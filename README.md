@@ -23,8 +23,9 @@ shapes may still change.
 Node.js >= 20, `adb` available on `PATH`, and an Android device with USB
 debugging enabled (or an emulator).
 
-The `pnpm check` suite additionally needs Node 22, 24, or >= 26, because the
-dependency linter refuses to run on other releases.
+For development, use the version in `.nvmrc`. `pnpm check` runs on any Node,
+but the dependency linter only supports Node 22, 24, and >= 26, and reports a
+skip on anything else.
 
 ## Build and run
 

@@ -2,6 +2,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseDocumentedResultPath, resultPathExists } from "./skill-refs-fields.js";
+import { compareRenderedTree } from "./generated-tree.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const srcDir = join(root, "docs", "skill-src");
@@ -109,9 +110,10 @@ function checkResultFieldDrift(domain: string, section: Section): void {
 }
 
 function main(): void {
+  const check = process.argv.includes("--check");
   const known = knownCommandIds();
   const coveredBy = new Map<string, string>();
-  mkdirSync(outDir, { recursive: true });
+  const rendered = new Map<string, string>();
 
   for (const domain of domains) {
     const { headLines, sections } = parseDomainFile(domain);
@@ -132,7 +134,7 @@ function main(): void {
     const body = [...headLines.join("\n").split("\n"), ...sections.flatMap((s) => s.bodyLines)]
       .join("\n")
       .replace(/^\n+/, "");
-    writeFileSync(join(outDir, `${domain}.md`), `${header}\n\n${body.trimEnd()}\n`);
+    rendered.set(`${domain}.md`, `${header}\n\n${body.trimEnd()}\n`);
   }
 
   for (const id of known) {
@@ -147,6 +149,24 @@ function main(): void {
     }
     process.exit(1);
   }
+
+  if (check) {
+    const drift = compareRenderedTree(outDir, rendered);
+    if (drift.length > 0) {
+      process.stderr.write("Generated skill references are out of sync with docs/skill-src.\n");
+      process.stderr.write("Run pnpm skill:gen and commit the resulting skills/autophone-cli/references changes.\n");
+      for (const line of drift) {
+        process.stderr.write(`  ${line}\n`);
+      }
+      process.exit(1);
+    }
+  } else {
+    mkdirSync(outDir, { recursive: true });
+    for (const [fileName, contents] of rendered) {
+      writeFileSync(join(outDir, fileName), contents);
+    }
+  }
+
   process.stdout.write(`skill-refs: ${coveredBy.size} commands documented across ${domains.length} domain files\n`);
 }
 

@@ -2,6 +2,7 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
+import { compareRenderedTree } from "./generated-tree.js";
 import {
   AutophoneErrorSchema,
   ClipboardGetRequestSchema,
@@ -389,11 +390,28 @@ const schemas = {
 
 const outputDir = join(root, "schemas");
 
-await rm(outputDir, { recursive: true, force: true });
-await mkdir(outputDir, { recursive: true });
-
+const rendered = new Map<string, string>();
 for (const [fileName, schema] of Object.entries(schemas)) {
   const jsonSchema = z.toJSONSchema(schema);
   Object.assign(jsonSchema, { $id: fileName.replace(".schema.json", "") });
-  await writeFile(join(outputDir, fileName), `${JSON.stringify(jsonSchema, null, 2)}\n`);
+  rendered.set(fileName, `${JSON.stringify(jsonSchema, null, 2)}\n`);
+}
+
+if (process.argv.includes("--check")) {
+  const drift = compareRenderedTree(outputDir, rendered);
+  if (drift.length > 0) {
+    process.stderr.write("Generated schemas are out of sync with src/contracts.\n");
+    process.stderr.write("Run pnpm schemas and commit the resulting schemas/ changes.\n");
+    for (const line of drift) {
+      process.stderr.write(`  ${line}\n`);
+    }
+    process.exit(1);
+  }
+  process.stdout.write(`schemas: ${rendered.size} files match src/contracts\n`);
+} else {
+  await rm(outputDir, { recursive: true, force: true });
+  await mkdir(outputDir, { recursive: true });
+  for (const [fileName, contents] of rendered) {
+    await writeFile(join(outputDir, fileName), contents);
+  }
 }

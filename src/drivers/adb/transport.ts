@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import type { ChildProcessByStdio } from "node:child_process";
 import type { Readable } from "node:stream";
 import { AutophoneError, type ErrorCode } from "../../contracts/index.js";
+import { adbTargetFailureError } from "./adb-target-failure.js";
 
 export type AdbTransportOptions = {
   adbPath?: string | undefined;
@@ -222,35 +223,14 @@ function runChild(
 }
 
 function mapAdbFailure(stderr: string, code: number | null, args: readonly string[]): AutophoneError {
-  const lower = stderr.toLowerCase();
-  if (lower.includes("device unauthorized") || lower.includes("unauthorized")) {
-    return new AutophoneError({
-      code: "DEVICE_UNAUTHORIZED",
-      message: "adb device is unauthorized",
-      retriable: false,
-      details: { stderr, args, exit_code: code }
-    });
-  }
-  if (lower.includes("device offline") || lower.includes("offline")) {
-    return new AutophoneError({
-      code: "DEVICE_OFFLINE",
-      message: "adb device is offline",
+  const details = { stderr, args, exit_code: code };
+  return (
+    adbTargetFailureError(stderr, details) ??
+    new AutophoneError({
+      code: "ADB_ERROR",
+      message: stderr.trim() || "adb command failed",
       retriable: true,
-      details: { stderr, args, exit_code: code }
-    });
-  }
-  if (lower.includes("no devices") || lower.includes("no device")) {
-    return new AutophoneError({
-      code: "NO_DEVICE",
-      message: "adb found no usable device",
-      retriable: true,
-      details: { stderr, args, exit_code: code }
-    });
-  }
-  return new AutophoneError({
-    code: "ADB_ERROR",
-    message: stderr.trim() || "adb command failed",
-    retriable: true,
-    details: { stderr, args, exit_code: code }
-  });
+      details
+    })
+  );
 }

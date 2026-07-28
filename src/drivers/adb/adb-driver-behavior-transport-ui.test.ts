@@ -920,7 +920,7 @@ if [ "$1" = "devices" ]; then
   exit 0
 fi
 if [ "$1" = "-s" ] && [ "$4" = "cmd" ] && [ "$5" = "package" ] && [ "$6" = "resolve-activity" ]; then
-  printf 'error: device offline https://example.com/path?token=secret\\n' >&2
+  printf 'cmd package resolve-activity https://example.com/path?token=secret\\nerror: device offline\\n' >&2
   exit 1
 fi
 exit 9

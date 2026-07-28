@@ -1,3 +1,4 @@
+import { adbTargetFailureError } from "./adb-target-failure.js";
 import { AutophoneError, type AppCurrentResult, type DeviceDetailsResult, type DeviceReadyState, type Point, type Snapshot } from "../../contracts/index.js";
 import type {
   AndroidDriver,
@@ -611,45 +612,13 @@ export function throwIfAdbTargetFailure(output: string, exitCode: number | null,
   if (exitCode === 0) {
     return;
   }
-  const lower = output.toLowerCase();
-  if (hasAdbUnauthorizedFailure(output)) {
-    throw new AutophoneError({
-      code: "DEVICE_UNAUTHORIZED",
-      message: "adb device is unauthorized",
-      retriable: false,
-      details: { args, exit_code: exitCode }
-    });
-  }
-  if (hasAdbOfflineFailure(output)) {
-    throw new AutophoneError({
-      code: "DEVICE_OFFLINE",
-      message: "adb device is offline",
-      retriable: true,
-      details: { args, exit_code: exitCode }
-    });
-  }
-  if (
-    lower.includes("no devices") ||
-    lower.includes("no device") ||
-    lower.includes("device not found") ||
-    /device ['"].+['"] not found/.test(lower)
-  ) {
-    throw new AutophoneError({
-      code: "NO_DEVICE",
-      message: "adb found no usable device",
-      retriable: true,
-      details: { args, exit_code: exitCode }
-    });
+  const targetFailure = adbTargetFailureError(output, { args, exit_code: exitCode });
+  if (targetFailure) {
+    throw targetFailure;
   }
 }
 
-export function hasAdbUnauthorizedFailure(output: string): boolean {
-  return output.split(/\r?\n/).some((line) => /^(adb:\s*)?(error:\s*)?device\b.*\bunauthorized\b/i.test(line.trim()));
-}
-
-export function hasAdbOfflineFailure(output: string): boolean {
-  return output.split(/\r?\n/).some((line) => /^(adb:\s*)?(error:\s*)?device\b.*\boffline\b/i.test(line.trim()));
-}
+export { hasAdbOfflineFailure, hasAdbUnauthorizedFailure } from "./adb-target-failure.js";
 
 export function redactUrlFromText(value: string, url: string): string {
   const quotedUrl = quoteForDeviceShell(url);
